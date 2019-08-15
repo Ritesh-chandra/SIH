@@ -1,0 +1,11 @@
+<%- include ./partials/header.ejs %>
+    <body>
+        <p>Use the form below to upload the data.
+        Click <a href="/admin/template">here</a> for an example template.</p>
+    <form action="/admin/upload" method="POST" encType="multipart/form-data">
+        <input type="file" name="file" accept="*.csv" /><br/><br/>
+        <input type="submit" value="Upload File" />
+    </form>
+    
+    </body>
+</html>

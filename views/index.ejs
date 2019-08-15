@@ -1,0 +1,634 @@
+<%- include ./partials/header.ejs %>
+  <body>
+
+   <!-- Navigation Bar -->
+
+   <%- include ./partials/nav.ejs %>
+    
+
+   <!-- Below Navigation Bar -->
+    
+  <div class="container pb-0 mb-0 pl-0 pr-0 mr-0 ml-0" style="margin-top:30px;">
+    <div class="row" >
+
+    <!-- Left Pane-->
+          
+          <div class="col-sm-4 p-0 bg-indigo" style="height:580px;">
+              <div class="d-sm-flex full height pt-3 pb-1 pl-1 pr-1" style="color:lightgray;">
+                  <!-- <div class="pt-5 pb-5"> -->
+                        <div class="container mt-1 p-0 mr-0 ml-1 mb-0" >
+                            <h4 class="pl-1 pr-1 pt-2 pb-1">Search By</h4>
+                            <!--Nav pane-->
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                  <a class="nav-link active" data-toggle="tab" href="#state" style="font-weight:bold;color:lightgray;">State</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#district" style="font-weight:bold;color:lightgray;">District</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#block" style="font-weight:bold;color:lightgray;">Block</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#pincode" style="font-weight:bold;color:lightgray">Pincode</a>
+                                </li>
+                            </ul>
+ <!-- state form -->
+                            <!-- Tab panes -->
+                            <div id="widget" class="tab-content" style="height:350px; width:300px;">
+                                    <!-- <head>
+                                            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+                                            integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+                                            crossorigin=""/>
+                                            <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+                                            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+                                            crossorigin=""></script>
+                                            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+                                        </head> -->
+                                        <form id="state" class="container tab-pane active" action="" >
+                                            <!-- <div>
+                                                <label for="sstate" class="col-form-label col-form-label-sm my-1">STATE</label>
+                                                <input type="text" class="form-control form-control-sm my-2" id="sstate" name="sstate">
+                                            </div>            -->
+
+                                            <label for="sstate" class="col-form-label col-form-label-sm my-1">STATE</label>
+                                        
+                                        <select  size="1" class="form-control form-control-sm my-2" name="sstate" id="sstate" >
+                                            <option value="" selected="selected" disabled>SELECT REGION</option>
+                                            <!-- <option value=""><%=data%>></option> -->
+                                            <% data.forEach((d)=>{%>
+                                              <option value="<%=d.state%>"><%=d%></option>
+                                            <%})%>
+                                        </select>          
+                                                    <div class="custom-control custom-radio">
+                                                       <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" onclick="S1()">
+                                                       <label class="custom-control-label" for="customRadioInline1">BY NO. OF TUBEWELLS</label>
+                                                     </div>
+                                                     <!-- <div class="custom-control custom-radio">
+                                                       <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input" onclick="S2()">
+                                                       <label class="custom-control-label" for="customRadioInline2">% INCREASE IN TUBEWELLS</label>
+                                                     </div> -->
+                                                     
+                                                    <div class="custom-control custom-radio">
+                                                       <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input" onclick="S3()">
+                                                       <label class="custom-control-label" for="customRadioInline3">% IN EACH CATEGORY</label>
+                                                     </div>
+                                                     <div class="custom-control custom-radio">
+                                                       <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input" onclick="S4()">
+                                                       <label class="custom-control-label" for="customRadioInline4">MOST TAPPED CATEGORY</label>
+                                                     </div>
+                                                     <div class="custom-control custom-radio">
+                                                      <input type="radio" id="customRadioInline5" name="customRadioInline1" class="custom-control-input" onclick="S5()">
+                                                      <label class="custom-control-label" for="customRadioInline5">IPU VS IPC</label>
+                                                    </div>
+                                                     <!-- Button for filters add if needed -->
+                                                     <!-- <button type="submit" class="btn btn-outline-light btn-sm">Submit</button> -->
+                                        </form>
+                                                   <script>
+                                                        var dz=new Array();
+                                                    function setdistrict2() {
+                                                        console.log("setdistrict called");
+                                                        var e=document.getElementById("dsstate");
+                                                        var state=e.options[e.selectedIndex].text;
+                                                        //document.getElementById("bblock").innerHTML='<option value="" selected="selected" disabled>SELECT BLOCK</option>';
+                
+                                                            document.getElementById("ddistrict").innerHTML='<option value="" selected="selected" disabled>SELECT REGION</option>';
+                                                          
+                                                        axios.get('/district/'+state).then((r)=>{
+                                                            console.log(r);
+                                                            //document.getElementById("bblock").innerHTML='<option value="" selected="selected" disabled>SELECT BLOCK</option>';
+                
+                                                            document.getElementById("ddistrict").innerHTML='<option value="" selected="selected" disabled>SELECT REGION</option>';
+                                                            r.data.forEach((x)=>{
+                                                                // console.log(document.getElementById("region").innerHTML);
+                                                                document.getElementById("ddistrict").innerHTML+="<option value="+x._id+">"+x._id+"</option>";
+                                                                if(dz[x._id]===undefined)
+                                                                dz[x._id]=new Array();
+                                                                dz[x._id].push((x.places));
+                                                            })
+                                                        });
+                                                    }
+                                              
+                                                    
+                                                    </script>
+                                        
+
+
+
+                                <form id="district" class="container tab-pane fade" action="" >
+                                        <!-- <div>
+                                            <label for="dsstate" class="col-form-label col-form-label-sm my-1">STATE</label>
+                                            <input type="text" class="form-control form-control-sm my-2" id="dsstate" name="sstate">
+                                        </div>
+                                        <div>
+                                                <label for="ddistrict" class="col-form-label col-form-label-sm my-1">DISTRICT</label>
+                                                <input type="text" class="form-control form-control-sm my-2" id="ddistrict" name="ddistrict">
+                                        </div>      -->
+
+                                          
+                                        <label for="dsstate" class="col-form-label col-form-label-sm my-1">STATE</label>
+                                        
+                                        <select  size="1" class="form-control form-control-sm my-2" name="dsstate" id="dsstate" onchange="setdistrict2()" >
+                                            <option value="" selected="selected" disabled>SELECT REGION</option>
+                                            <!-- <option value=""><%=data%>></option> -->
+                                            <% data.forEach((d)=>{%>
+                                              <option value="<%=d.state%>"><%=d%></option>
+                                            <%})%>
+                                        </select>
+                                
+                                        <label for="ddistrict">DISTRICT&raquo;</label>
+                                        
+                                        <select  size="1" name="ddistrict" id="ddistrict" >
+                                            <option value="" selected="selected" disabled>SELECT REGION</option>
+                                            
+                                        </select>
+
+
+   
+                                                <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline1s2" name="customRadioInline2" class="custom-control-input" onclick="D1()">
+                                                   <label class="custom-control-label" for="customRadioInline1s2">BY NO. OF TUBEWELLS</label>
+                                                 </div>
+                                                 <!-- <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline2s2" name="customRadioInline2" class="custom-control-input" onclick="D2()">
+                                                   <label class="custom-control-label" for="customRadioInline2s2">% INCREASE IN TUBEWELLS</label>
+                                                 </div> -->
+                                                 
+                                                <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline3s2" name="customRadioInline2" class="custom-control-input" onclick="D3()">
+                                                   <label class="custom-control-label" for="customRadioInline3s2">% IN EACH CATEGORY</label>
+                                                 </div>
+                                                 <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline4s2" name="customRadioInline2" class="custom-control-input" onclick="D4()">
+                                                   <label class="custom-control-label" for="customRadioInline4s2">MOST TAPPED CATEGORY</label>
+                                                 </div>
+                                                 
+                                                <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline5s2" name="customRadioInline2" class="custom-control-input" onclick="D5()">
+                                                   <label class="custom-control-label" for="customRadioInline5s2">IPU VS IPC</label>
+                                                 </div>
+                                                 <!--<div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline6s2" name="customRadioInline2" class="custom-control-input">
+                                                   <label class="custom-control-label" for="customRadioInline6s2">Filter 6</label>
+                                                 </div>
+                                                <div class="custom-control custom-radio ">
+                                                   <input type="radio" id="customRadioInline7s2" name="customRadioInline2" class="custom-control-input">
+                                                   <label class="custom-control-label" for="customRadioInline7s2">Filter 7</label>
+                                                 </div>
+                                                 <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline8s2" name="customRadioInline2" class="custom-control-input">
+                                                   <label class="custom-control-label" for="customRadioInline8s2">Filter 8</label>
+                                                 </div> -->
+                                                 <!-- Button for filters add if needed -->
+                                                 <!-- <button type="submit" class="btn btn-outline-light btn-sm">Submit</button> -->
+                                    </form> 
+
+                                    <script>
+                                        var z=new Array();
+                                    function setdistrict() {
+                                        console.log("setdistrict called");
+                                        var e=document.getElementById("bsstate");
+                                        var state=e.options[e.selectedIndex].text;
+                                        document.getElementById("bblock").innerHTML='<option value="" selected="selected" disabled>SELECT BLOCK</option>';
+
+                                            document.getElementById("bddistrict").innerHTML='<option value="" selected="selected" disabled>SELECT REGION</option>';
+                                          
+                                        axios.get('/district/'+state).then((r)=>{
+                                            console.log(r);
+                                            document.getElementById("bblock").innerHTML='<option value="" selected="selected" disabled>SELECT BLOCK</option>';
+
+                                            document.getElementById("bddistrict").innerHTML='<option value="" selected="selected" disabled>SELECT REGION</option>';
+                                            r.data.forEach((x)=>{
+                                                // console.log(document.getElementById("region").innerHTML);
+                                                document.getElementById("bddistrict").innerHTML+="<option value="+x._id+">"+x._id+"</option>";
+                                                if(z[x._id]===undefined)
+                                                z[x._id]=new Array();
+                                                z[x._id].push((x.places));
+                                            })
+                                        });
+                                    }
+                                    function setblock() {
+                                        console.log("set block called");
+                                        console.log(z);
+                                        var e=document.getElementById("bddistrict");
+                                        var district=e.options[e.selectedIndex].text;
+                                        console.log(district);
+                                        document.getElementById("bblock").innerHTML='<option value="" selected="selected" disabled>SELECT BLOCK</option>';
+                                      
+
+                                        z[district][0].forEach((x)=>{
+                                            document.getElementById("bblock").innerHTML+="<option value="+x+">"+x+"</option>";
+
+                                        })
+                                        document.getElementById("bblock").innerHTML+='<option value="otheroption" >ANY OTHER OPTION...</option>';
+                                    }
+                                    function fun(){
+                                      console.log("fun called");
+                                        // console.log(z);
+                                        var e=document.getElementById("bblock");
+                                        var block=e.options[e.selectedIndex].text;
+                                        console.log(block);
+                                        if(block==="ANY OTHER OPTION...")
+                                        {
+                                          console.log("somthing");
+                                          document.getElementById("otheroption").style.visibility="visible";
+                                        }
+                                    }
+                                    function fillselect(){
+                                      console.log("fill select");
+                                      console.log("x="+document.getElementById("manual").value);
+                                      console.log("y="+document.getElementById("manual").text);
+                                      console.log("z="+document.getElementById("manual").innerHTML);
+                                      document.getElementById("bblock").innerHTML+='<option value="'+document.getElementById("manual").value+'" selected>'+document.getElementById("manual").value+'</option>';
+                                      document.getElementById("otheroption").style.visibility="hidden";
+                                    }
+                                    </script>
+
+
+
+                               <form id="block" class="tab-pane fade scale2" action="">
+                                        <!-- <div>
+                                            <label for="bsstate" class="col-form-label col-form-label-sm my-1">STATE</label>
+                                            <input type="text" class="form-control form-control-sm my-2" id="bsstate" name="sstate">
+                                        </div>
+                                        <div>
+                                                <label for="bddistrict" class="col-form-label col-form-label-sm my-1">DISTRICT</label>
+                                                <input type="text" class="form-control form-control-sm my-2" id="bddistrict" name="ddistrict">
+                                        </div>  
+                                        <div>
+                                                <label for="bblock" class="col-form-label col-form-label-sm my-1">BLOCK</label>
+                                                <input type="text" class="form-control form-control-sm my-2" id="bblock" name="bblock">
+                                        </div>  -->
+
+                                            <label for="bsstate">STATE&raquo;</label>
+                                            <!--  -->
+                                            <select  size="1" name="bsstate" id="bsstate" onchange="setdistrict()" >
+                                                <option value="" selected="selected" disabled>SELECT REGION</option>
+                                                <!-- <option value=""><%=data%>></option> -->
+                                                <% data.forEach((d)=>{%>
+                                                  <option value="<%=d.state%>"><%=d%></option>
+                                                <%})%>
+                                            </select>
+                                    
+                                            <label for="bddistrict">DISTRICT&raquo;</label>
+                                            <!--  -->
+                                            <select  size="1" name="bddistrict" id="bddistrict" onchange="setblock()" >
+                                                <option value="" selected="selected" disabled>SELECT REGION</option>
+                                                
+                                            </select>
+                                
+                                            <label for="bblock">BLOCK&raquo;</label>
+                                            <!--  -->
+                                            <select  size="1" name="bblock" id="bblock" onchange="fun()">
+                                                <option value="" selected="selected" disabled>SELECT BLOCK</option>
+                                                
+                                            </select>
+
+                                            <div id="otheroption" style="visibility:hidden">
+                                                <label for="manual">Enter name:</label>
+                                              <input type="text" id="manual" value="">
+                                              <div onclick="fillselect()">ENTER</div>
+                                              </div>
+
+                                                <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline1s3" name="customRadioInline3" class="custom-control-input" onclick="B1()">
+                                                   <label class="custom-control-label" for="customRadioInline1s3">BY NO. OF TUBEWELLS</label>
+                                                 </div>
+                                                 <!-- <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline2s3" name="customRadioInline3" class="custom-control-input" onclick="B2()">
+                                                   <label class="custom-control-label" for="customRadioInline2s3">INCREASE IN TUBEWELLS/label>
+                                                 </div> -->
+                                                 
+                                                <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline3s3" name="customRadioInline3" class="custom-control-input"onclick="B3()">
+                                                   <label class="custom-control-label" for="customRadioInline3s3">% IN EACH CATEGORY</label>
+                                                 </div>
+                                                 <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline4s3" name="customRadioInline3" class="custom-control-input" onclick="B4()">
+                                                   <label class="custom-control-label" for="customRadioInline4s3">MOST TAPPED CATEGORY</label>
+                                                 </div>
+                                                 <div class="custom-control custom-radio">
+                                                  <input type="radio" id="customRadioInline6s3" name="customRadioInline3" class="custom-control-input" onclick="B6()">
+                                                  <label class="custom-control-label" for="customRadioInline6s3">IPU VS IPC</label>
+                                                </div>
+                          
+                                                <div class="custom-control custom-radio">
+                                                   <input type="radio" id="customRadioInline5s3" name="customRadioInline3" class="custom-control-input" onclick="showyear()">
+                                                   <label class="custom-control-label" for="customRadioInline5s3">Prediction of Water Level</label>
+                                                 </div>
+                                                 <div id="yeardiv" style="display:none;" >
+                                                  <label for="year" class="col-form-label col-form-label-sm my-1">YEAR</label>
+                                                  <input type="text" class="form-control form-control-sm my-2" id="year" name="year">
+                                                  <p class="btn btn-light btn-sm" onclick="sub()">Submit</p>
+                                                </div>  
+
+                                                <div class="custom-control custom-radio">
+                                                  <input type="radio" id="customRadioInline7s3" name="customRadioInline3" class="custom-control-input" onclick="showyear2()">
+                                                  <label class="custom-control-label" for="customRadioInline7s3">Prediction Of Depth Level</label>
+                                                </div>
+                                                <div id="yeardiv2" style="display:none;" >
+                                                 <label for="year2" class="col-form-label col-form-label-sm my-1">YEAR</label>
+                                                 <input type="text" class="form-control form-control-sm my-2" id="year2" name="year">
+                                                 <p class="btn btn-light btn-sm" onclick="sub2()">Submit</p>
+                                               </div>
+
+                                               <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline8s3" name="customRadioInline3" class="custom-control-input" onclick="showyear3()">
+                                                <label class="custom-control-label" for="customRadioInline8s3">Prediction Of Number of Tubewells</label>
+                                              </div>
+                                              <div id="yeardiv3" style="display:none;" >
+                                               <label for="year3" class="col-form-label col-form-label-sm my-1">YEAR</label>
+                                               <input type="text" class="form-control form-control-sm my-2" id="year3" name="year">
+                                               <p class="btn btn-light btn-sm" onclick="sub3()">Submit</p>
+                                             </div>
+
+                                             <div class="custom-control custom-radio">
+                                              <input type="radio" id="customRadioInline9s3" name="customRadioInline3" class="custom-control-input" onclick="showyear4()">
+                                              <label class="custom-control-label" for="customRadioInline9s3">Prediction Of Depth of Dugwells</label>
+                                            </div>
+                                            <div id="yeardiv4" style="display:none;" >
+                                             <label for="year4" class="col-form-label col-form-label-sm my-1">YEAR</label>
+                                             <input type="text" class="form-control form-control-sm my-2" id="year4" name="year">
+                                             <p class="btn btn-light btn-sm" onclick="sub4()">Submit</p>
+                                           </div>
+
+                                           <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadioInline10s3" name="customRadioInline3" class="custom-control-input" onclick="showyear5()">
+                                            <label class="custom-control-label" for="customRadioInline10s3">Prediction Of Number of Dugwells</label>
+                                          </div>
+                                          <div id="yeardiv5" style="display:none;" >
+                                           <label for="year5" class="col-form-label col-form-label-sm my-1">YEAR</label>
+                                           <input type="text" class="form-control form-control-sm my-2" id="year5" name="year">
+                                           <p class="btn btn-light btn-sm" onclick="sub5()">Submit</p>
+                                         </div>
+
+                                         <div class="custom-control custom-radio">
+                                          <input type="radio" id="customRadioInline11s3" name="customRadioInline3" class="custom-control-input" onclick="showyear6()">
+                                          <label class="custom-control-label" for="customRadioInline11s3">Prediction Of Water Levels of Dugwells</label>
+                                        </div>
+                                        <div id="yeardiv6" style="display:none;" >
+                                         <label for="year6" class="col-form-label col-form-label-sm my-1">YEAR</label>
+                                         <input type="text" class="form-control form-control-sm my-2" id="year6" name="year">
+                                         <p class="btn btn-light btn-sm" onclick="sub6()">Submit</p>
+                                       </div>
+
+                                                <script>
+                                                    function showyear()
+                                                    {
+                                                     
+                                                      document.getElementById("yeardiv").style.display="block";
+                                                      document.getElementById("yeardiv2").style.display="none";
+                                                      document.getElementById("yeardiv3").style.display="none";
+                                                      document.getElementById("yeardiv4").style.display="none";
+                                                      document.getElementById("yeardiv6").style.display="none";
+                                                      document.getElementById("yeardiv5").style.display="none";
+                                                    }
+                                                    // $("year").keydown(function() {
+                                                    // var key = e.which;
+                                                    // console.log(key);
+                                                    // if (key == '13') {
+                                                    // // As ASCII code for ENTER key is "13"
+                                                    // console.log("jhds");
+                                                    // B2(); // Submit form code
+                                                    // }
+                                                    // })
+                                                    function showyear2()
+                                                    {
+                                                     
+                                                     document.getElementById("yeardiv").style.display="none";
+                                                      document.getElementById("yeardiv2").style.display="block";
+                                                      document.getElementById("yeardiv3").style.display="none";
+                                                      document.getElementById("yeardiv4").style.display="none";
+                                                      document.getElementById("yeardiv5").style.display="none";
+                                                      document.getElementById("yeardiv6").style.display="none";
+                                                    }
+
+                                                    function showyear3()
+                                                    {
+                                                    
+                                                     document.getElementById("yeardiv").style.display="none";
+                                                      document.getElementById("yeardiv2").style.display="none";
+                                                      document.getElementById("yeardiv3").style.display="block";
+                                                      document.getElementById("yeardiv4").style.display="none";
+                                                      document.getElementById("yeardiv6").style.display="none";
+                                                      document.getElementById("yeardiv5").style.display="none";
+                                                    }
+                                                    function showyear4()
+                                                    {
+                                                    
+                                                     document.getElementById("yeardiv").style.display="none";
+                                                      document.getElementById("yeardiv2").style.display="none";
+                                                      document.getElementById("yeardiv3").style.display="none";
+                                                      document.getElementById("yeardiv4").style.display="block";
+                                                      document.getElementById("yeardiv5").style.display="none";
+                                                      document.getElementById("yeardiv6").style.display="none";
+                                                    }
+                                                    function showyear5()
+                                                    {
+                                                     
+                                                      document.getElementById("yeardiv").style.display="none";
+                                                      document.getElementById("yeardiv2").style.display="none";
+                                                      document.getElementById("yeardiv3").style.display="none";
+                                                      document.getElementById("yeardiv4").style.display="none";
+                                                      document.getElementById("yeardiv5").style.display="block";
+                                                      document.getElementById("yeardiv6").style.display="none";
+                                                    }
+                                                    function showyear6()
+                                                    {
+                                                     
+                                                      document.getElementById("yeardiv").style.display="none";
+                                                      document.getElementById("yeardiv2").style.display="none";
+                                                      document.getElementById("yeardiv3").style.display="none";
+                                                      document.getElementById("yeardiv4").style.display="none";
+                                                      document.getElementById("yeardiv5").style.display="none";
+                                                      document.getElementById("yeardiv6").style.display="block";
+                                                    }
+                                                  </script>
+                                                 <!-- Button for filters add if needed -->
+                                                 <!-- <button type="submit" class="btn btn-outline-light btn-sm">Submit</button> -->
+                                    </form>
+                                    <style>
+                                      .scale2{
+                                        transform: scale(0.8);
+                                      }
+                                    </style>
+                                
+                                <form id="pincode" class="container tab-pane fade" action=""><br>
+                                    <label for="pinn" class="col-form-label col-form-label-sm mb-1">Enter Pincode</label>
+                                    <input type="number" class="form-control form-control-sm my-2" id="pinn" placeholder="Eg.226010">
+                                    <!-- <button class="btn btn-sm btn-outline-light my-2" type="submit">Search!</button> -->          
+                                            <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline1s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline1s4" onclick="P1()">NO OF TUBEWELLS</label>
+                                             </div>
+                                             <!-- <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline2s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline2s4" onclick="P2()">Filter 2</label>
+                                             </div>
+                                             
+                                            <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline3s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline3s4" onclick="P3()">Filter 3</label>
+                                             </div>
+                                             <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline4s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline4s4"onclick ="P4()">Filter 4</label>
+                                             </div> -->
+                                             
+                                            <!-- <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline5s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline5s4">Filter 5</label>
+                                             </div>
+                                             <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline6s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline6s4">Filter 6</label>
+                                             </div>
+                                            <div class="custom-control custom-radio ">
+                                               <input type="radio" id="customRadioInline7s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline7s4">Filter 7</label>
+                                             </div>
+                                             <div class="custom-control custom-radio">
+                                               <input type="radio" id="customRadioInline8s4" name="customRadioInline4" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadioInline8s4">Filter 8</label>
+                                             </div> -->
+                                
+                                             <!--Button for filters add if needed -->
+                                
+                                             <!-- <button type="submit" class="btn btn-outline-light btn-sm">Submit</button> -->
+                                </form>                        
+                            </div>
+                            <div class="scaled p-0 m-1">
+                                <label class="switch">
+                                  <input id="hide" type="checkbox" checked onchange="togg()">
+                                  <span class="slider round"></span>
+                                  <span class="absolute-no">GRAPH</span>
+                                </label>
+                             </div>
+                          </div>               
+                </div>
+                </div>
+          <!-- Right -->
+          
+          <div id="mapdiv" class="col-sm-8 p-0 bg-white" style="display:block;">
+              <div id="mapid" class="d-sm-flex align-items-center fullheight justify-content-center" style="height: 580px;width:900px;">
+                  Map
+              </div>
+          </div>
+          
+            
+            <!-- <div id="graphdiv" class="col-sm-8 p-0 bg-white fullheight" style="display:none;">
+              <div id="g1" class="d-sm-flex align-items-center fullheight justify-content-center" style="background-color: brown;height: 580px;width:900px;">
+                 Graph
+              </div>
+          </div> -->
+
+            <div id="graphdiv" class="col-sm-8 p-0 bg-white fullheight" style="display:none;">
+              <script src="./graph.js"></script>
+              <div id="g1" class="d-sm-flex align-items-center fullheight justify-content-center" style="background-color: brown;height: 580px;width:900px;">
+                 <script>
+                graph1();
+              </script>
+              </div>
+          </div>
+
+          <div id="preddiv" class="col-sm-8 p-0 bg-white" style="display:none;">
+              <div id="container" class="d-sm-flex fullheight pt-3" style="background-color:lightgrey;height: 580px;width:900px;">
+                  <!-- <h5 id="pwater" style="padding-top:25px;"></h5> -->
+                  
+              </div>
+          </div>
+
+
+              <!-- <script src="./graph.js"></script>
+              <div id ="g1">
+             <script>
+                graph1();
+              </script>
+              </div> -->
+
+     </div>
+     </div>
+
+     <script>
+       function togg()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          if(map.style.display=='block')
+          {
+            map.style.display='none';
+            graph.style.display='block';
+          }
+          else{
+            map.style.display='block';
+            graph.style.display='none';
+          }
+        }
+        function sub()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          var pred=document.getElementById("preddiv");
+            map.style.display='none';
+            graph.style.display='none';
+            pred.style.display='block';
+            B5();
+        }     
+        function sub2()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          var pred=document.getElementById("preddiv");
+            map.style.display='none';
+            graph.style.display='none';
+            pred.style.display='block';
+            B7();
+        }       
+        function sub3()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          var pred=document.getElementById("preddiv");
+            map.style.display='none';
+            graph.style.display='none';
+            pred.style.display='block';
+            B8();
+        }                 
+        function sub4()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          var pred=document.getElementById("preddiv");
+            map.style.display='none';
+            graph.style.display='none';
+            pred.style.display='block';
+            B9();
+        }
+        function sub5()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          var pred=document.getElementById("preddiv");
+            map.style.display='none';
+            graph.style.display='none';
+            pred.style.display='block';
+            B10();
+        }     
+        function sub6()
+        {
+          var map=document.getElementById("mapdiv");
+          var graph=document.getElementById("graphdiv");
+          var pred=document.getElementById("preddiv");
+            map.style.display='none';
+            graph.style.display='none';
+            pred.style.display='block';
+            B11();
+        }                
+
+
+     </script>
+        <script src="./jjs.js"></script>
+       <link rel="stylesheet" type="text/css" href="home.css" />
+    </body>
+</html>
+  

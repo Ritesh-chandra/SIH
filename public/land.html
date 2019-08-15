@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+        <style>
+                #mapid{
+        height:500px;
+        width: 950px;
+    }
+            </style>
+    <title>Tubewells</title>
+  <meta charset="utf-8">
+  <!-- //<link rel="stylesheet" href="home.css"> -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+   crossorigin=""></script>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+  integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+  crossorigin=""></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+
+
+   <!-- Navigation Bar -->
+      <nav id="navv" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+          <div class="container" id="navcon">
+              <a class="navbar-brand py-0" style="font-size:15px;color:lightgrey;" href="">Tubewells Map</a>
+              <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
+                  &#9776;
+              </button>
+
+              <div class="collapse navbar-collapse" id="exCollapsingNavbar">
+
+                   <!-- For adding further links to pages -->
+
+                  <!-- <ul class="nav navbar-nav"> -->
+                      <!-- <li class="nav-item"><a href="" class="nav-link">Link1</a></li> -->
+                      <!-- <li class="nav-item"><a href="" class="nav-link">Link2</a></li> -->
+                  <!-- </ul> -->
+
+
+                  <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+                      <li class="nav-item order-2 order-md-1"><a href="" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+                      <li class="dropdown order-1">
+                          <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle" style="font-size:15px;padding-top: 3px; padding-bottom: 3px;color:lightgrey;">Login <span class="caret"></span></button>
+                          <ul class="dropdown-menu dropdown-menu-right mt-2 bg-dark">
+                             <li class="px-3 py-2 bg-dark">
+                                 <form class="form bg-dark" role="form">
+                                      <div class="form-group">
+                                          <input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">
+                                      </div>
+                                      <div class="form-group">
+                                          <input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">
+                                      </div>
+                                      <div class="form-group">
+                                          <button type="submit" class="btn btn-outline-light btn-block" style="color:lightgrey;">Login</button>
+                                      </div>
+                                      <div class="form-group text-center">
+                                          <small><a href="#" data-toggle="modal" data-target="#modalPassword" style="color:lightgrey;">Forgot password?</a></small>
+                                      </div>
+                                  </form>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      
+      <div id="modalPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h3>Forgot password</h3>
+                      <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Reset your password..</p>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button class="btn btn-primary">Save changes</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <style>
+        .navbar .dropdown-menu .form-control {
+            width: 300px;
+        } 
+      </style>
+
+      
+      
+      <!-- Below Navigation Bar -->
+      
+      
+
+    <div class="container pb-0 mb-0 pl-0 pr-0 mr-0 ml-0"style="margin-top:30px;">
+    <div class="row" >
+          <!-- Left Pane-->
+          
+          <div class="col-sm-4 p-0 bg-indigo">
+              <div class="d-sm-flex full height pt-3 pb-3 pl-5 pr-5" style="color:lightgray;">
+                  <!-- <div class="pt-5 pb-5"> -->
+                      <div id="searchsection" class="row">
+                        <div class="container mt-1" >
+                            <h4 class="pl-2 pr-2 pt-2 pb-1">Search By</h4>
+                            <!--Nav pane-->
+                            <ul class="nav nav-tabs" style="width:200px;">
+                              <li class="nav-item" style="width:100px;">
+                                <a class="nav-link active" data-toggle="tab" href="#district" style="font-weight:bold;color:lightgray;">District</a>
+                              </li>
+                              <li class="nav-item" style="width:100px;">
+                                <a class="nav-link" data-toggle="tab" href="#pincode" style="font-weight:bold;color:lightgray">Pincode</a>
+                              </li>
+                            </ul>
+                          
+                            <!-- Tab panes -->
+                            <div id="widget" class="tab-content" style="height:200px; width:200px;">
+                              <form id="district" class="container tab-pane active form-group row" action="" ><br>
+                                    <div id="state">
+                                        <label for="region" class="col-form-label col-form-label-sm my-1">STATE</label>
+                                        <select class="btn btn-light btn-sm my-1" onchange="setcity(this,country,city_state)" size="1" name="region">
+                                        <option value="" selected="selected">SELECT</option>
+                                        <option value=""></option>
+                                        <script type="text/javascript">
+                                         //setStates(this);
+                                        </script>
+                                        </select>
+                                     </div>
+                                    <div id="city">
+                                        <label for="country" class="col-form-label col-form-label-sm my-1">CITY</label>
+                                        <select class="btn btn-light btn-sm my-1" name="country" size="1" disabled="disabled" onchange="setblock(this,city_state)"></select>
+                                   </div>
+                                   
+                                   <input name="cc" type="checkbox" id="foo" value="1">
+                                   <label for="cc" class="col-form-label col-form-label-sm">Select for block</label>
+                                   <div style="display:none;" id="checked-a">
+                                      <label for="city_state" class="col-form-label-sm my-1">BLOCK</label>
+                                      <select class="btn btn-light btn-sm my-1" name="city_state" size="1" disabled="disabled" onchange="print_city_state(country,this)"></select>
+                                   </div>
+                                   <div id="txtregion"></div>
+                                    <div id="txtplacename"></div>
+                                  </form>
+                              <form id="pincode" class="container tab-pane fade" action=""><br>
+                                    <label for="pinn" class="col-form-label col-form-label-sm mb-1">Enter Pincode</label>
+                                      <input type="number" class="form-control form-control-sm my-2" id="pinn" placeholder="Eg.226010">
+                                    <button class="btn btn-sm btn-outline-light my-2" type="submit">Search!</button>
+                                  </form>
+                            </div>
+                          <!-- </div> -->
+                      </div>
+
+                      <br>
+                      <br>
+
+                      <!-- Lower Filter Section -->
+
+                      <div id="filtersection" class="row pl-4 pt-4">
+                          <form action="">
+                            
+                           <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline1">Filter 1</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline2">Filter 2</label>
+                            </div>
+                            
+                           <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline3">Filter 3</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline4">Filter 4</label>
+                            </div>
+                            
+                           <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline5" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline5">Filter 5</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline6" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline6">Filter 6</label>
+                            </div>
+                           <div class="custom-control custom-radio ">
+                              <input type="radio" id="customRadioInline7" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline7">Filter 7</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="customRadioInline8" name="customRadioInline1" class="custom-control-input">
+                              <label class="custom-control-label" for="customRadioInline8">Filter 8</label>
+                            </div>
+
+                            <!-- Button for filters add if needed -->
+
+                            <!-- <button type="submit" class="btn btn-outline-light btn-sm">Submit</button> -->
+                          
+                          </form>
+                        </div>
+                        
+                      </div>
+                  </div>
+                </div>
+          <!-- Right -->
+          
+          <div class="col-sm-8 p-0 bg-white fullheight">
+              <div id="mapid" class="d-sm-flex align-items-center fullheight p-5 justify-content-center mt-5">
+                  Map
+              </div>
+          </div>
+     </div>
+     </div>
+     <!-- map code -->
+     <script>
+            var map = L.map('mapid', {
+                maxZoom: 50,
+                minZoom: 3,
+            
+            }).setView([27.1760576, 77.758213],4);
+
+           var func= ()=>{
+            axios.get('http://localhost:3000/api')
+                .then(response => {
+                    response.data.forEach((x)=>{
+                        var block=x._id;
+                        var inuse=x.inuse;
+                        var total=x.total;
+                        console.log(block, inuse, total);
+                    axios.get(`https://nominatim.openstreetmap.org/?format=json&country=india&state=DELHI&city=${block}&format=json&limit=1`,{
+                        inuse,
+                        total
+                    })
+                .then((response) => {
+                    if(response.data.length!==0)
+                    {
+                    //console.log(total);
+                    //console.log(inuse);
+                    //console.log(response.data[0]);
+                    var lat=response.data[0].lat;
+                    var long=response.data[0].lon;
+                    var marker = L.marker([lat, long],{fillColor:'red'}).addTo(map);
+                    marker.bindPopup("<b>SHALLOW TUBEWELLS</b><br><b>total "+total+"</b><br>"+"<b>inuse "+inuse+"</b><br>").openPopup();
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+                    })
+                 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+            axios.get('http://localhost:3000/api/deep')
+                .then(response => {
+                    response.data.forEach((x)=>{
+                        var block=x._id;
+                        var inuse=x.inuse;
+                        var total=x.total;
+                        console.log(block, inuse, total);
+                    axios.get(`https://nominatim.openstreetmap.org/?format=json&country=india&state=uttar+pradesh&city=${block}&format=json&limit=1`,{
+                        inuse,
+                        total
+                    })
+                .then((response) => {
+                    if(response.data.length!==0)
+                    {
+                    //console.log(total);
+                    //console.log(inuse);
+                    //console.log(response.data[0]);
+                    var lat=response.data[0].lat;
+                    var long=response.data[0].lon;
+                    var circle = L.circle([lat,long], {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 20000
+                    }).addTo(map);
+                    circle.bindPopup("<b>DEEP TUBEWELLS</b><br><b>total "+total+"</b><br>"+"<b>inuse "+inuse+"</b><br>").openPopup();
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+                    })
+                 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+        var func1= ()=>{
+            axios.get('http://localhost:3000/api/district')
+                .then(response => {
+                    response.data.forEach((x)=>{
+                        var block=x.BLOCK;
+                        var inuse=x.INUSE;
+                        var total=x.TOTAL;
+                        console.log(block, inuse, total);
+                    axios.get(`https://nominatim.openstreetmap.org/?format=json&country=india&state=uttar+pradesh&city=${block}&format=json&limit=1`,{
+                        inuse,
+                        total
+                    })
+                .then((response) => {
+                    if(response.data.length!==0)
+                    {
+                    console.log(total);
+                    console.log(inuse);
+                    console.log(response.data[0]);
+                    var lat=response.data[0].lat;
+                    var long=response.data[0].lon;
+                    var marker = L.marker([lat, long]).addTo(map);
+                    marker.bindPopup("<b>SHALLOW TUBEWELLS</b><br><b>total "+total+"</b><br>"+"<b>inuse "+inuse+"</b><br>").openPopup();
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+                    })
+                 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+            axios.get('http://localhost:3000/api/district/deep')
+                .then(response => {
+                    response.data.forEach((x)=>{
+                        var block=x.BLOCK;
+                        var inuse=x.INUSE;
+                        var total=x.TOTAL;
+                        console.log(block, inuse, total);
+                    axios.get(`https://nominatim.openstreetmap.org/?format=json&country=india&state=uttar+pradesh&city=${block}&format=json&limit=1`,{
+                        inuse,
+                        total
+                    })
+                .then((response) => {
+                    if(response.data.length!==0)
+                    {
+                    console.log(total);
+                    console.log(inuse);
+                    console.log(response.data[0]);
+                    var lat=response.data[0].lat;
+                    var long=response.data[0].lon;
+                    var circle = L.circle([lat,long], {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 20000
+                    }).addTo(map);
+                    circle.bindPopup("<b>DEEP TUBEWELLS</b><br><b>total "+total+"</b><br>"+"<b>inuse "+inuse+"</b><br>").openPopup();
+                    }
+
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+                    })
+                 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+        }
+        var func2= ()=>{
+            axios.get('http://localhost:3000/api/block')
+                .then(response => {
+                    response.data.forEach((x)=>{
+                        var block=x.BLOCK;
+                        var inuse=x.INUSE;
+                        var total=x.TOTAL;
+                        console.log(block, inuse, total);
+                    axios.get(`https://nominatim.openstreetmap.org/?format=json&country=india&state=uttar+pradesh&city=${block}&format=json&limit=1`,{
+                        inuse,
+                        total
+                    })
+                .then((response) => {
+                    if(response.data.length!==0)
+                    {
+                    console.log(total);
+                    console.log(inuse);
+                    console.log(response.data[0]);
+                    var lat=response.data[0].lat;
+                    var long=response.data[0].lon;
+                    var marker = L.marker([lat, long]).addTo(map);
+                    marker.bindPopup("<b>SHALLOW TUBEWELLS</b></br><b>total "+total+"</b><br>"+"<b>inuse "+inuse+"</b><br>").openPopup();
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+                    })
+                 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+            axios.get('http://localhost:3000/api/block/deep')
+                .then(response => {
+                    response.data.forEach((x)=>{
+                        var block=x.BLOCK;
+                        var inuse=x.INUSE;
+                        var total=x.TOTAL;
+                        console.log(block, inuse, total);
+                    axios.get(`https://nominatim.openstreetmap.org/?format=json&country=india&state=uttar+pradesh&city=${block}&format=json&limit=1`,{
+                        inuse,
+                        total
+                    })
+                .then((response) => {
+                    if(response.data.length!==0)
+                    {
+                    console.log(total);
+                    console.log(inuse);
+                    console.log(response.data[0]);
+                    var lat=response.data[0].lat;
+                    var long=response.data[0].lon;
+                    var circle = L.circle([lat,long], {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 20000
+                    }).addTo(map);
+                    circle.bindPopup("<b>DEEP TUBEWELLS</b><br><b>total "+total+"</b><br>"+"<b>inuse "+inuse+"</b><br>").openPopup();
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+                    })
+                 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+            func();
+        }
+
+            // map.on('click', onMapClick);
+                   
+                    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                        maxZoom: 18,
+                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                        id: 'mapbox.streets'
+                    }).addTo(map);
+	
+                func();
+                </script>
+     <script>
+        $("#foo").change(function(){
+      
+         var ischecked=$(this).is(':checked'); 
+          if(ischecked)
+          {
+               $("#checked-a").fadeIn(200);
+          }
+          else
+          {
+              $("#checked-a").fadeOut(200);   
+           }
+        });
+      </script>
+      <style>
+        html,body{
+          height:100%;
+        }
+
+        .fullheight{
+          height:100%;
+        }
+
+        .btn-round { 
+            border-radius: 30px; 
+         }
+
+        .bg-indigo { 
+            background: indigo; 
+        }
+
+        .text-cyan { 
+            color: #35bdff; 
+        }
+
+        button:focus {
+            outline: 0;
+        }
+
+      </style>
+  </body>
+</html>
